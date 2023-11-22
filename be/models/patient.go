@@ -1,16 +1,15 @@
 package models
 
 import (
-	"database/sql"
 	"time"
 )
 
 type Patient struct {
-	ID        string       `json:"id" gorm:"primary_key"`
-	Name      string       `json:"name"`
-	Gender    string       `json:"gender"`
-	BirthDate sql.NullTime `json:"birthdate"`
-	Address   string       `json:"address"`
+	ID        string    `json:"id" gorm:"primary_key"`
+	Name      string    `json:"name"`
+	Gender    string    `json:"gender"`
+	BirthDate time.Time `json:"birthdate"`
+	Address   string    `json:"address"`
 
 	// status
 	CreatedAt time.Time `json:"created_at"`
@@ -18,7 +17,8 @@ type Patient struct {
 }
 
 type TreatmentHistory struct {
-	ID string `json:"id" gorm:"primary_key"`
+	ID                      string `json:"id" gorm:"primary_key"`
+	DiseaseIdentificationAs string `json:"disease_identification_as"`
 
 	// foreign
 	PatientID        string         `json:"patient_id"`
