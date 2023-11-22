@@ -34,6 +34,16 @@ func main() {
 	r.GET("/patients/deleted", controllers.FindDeletedPatients)
 	r.DELETE("/patient/deleted/:id", controllers.RecoverDeletedPatient)
 
+	// ListOfDiseases
+	r.GET("/diseases", controllers.FindDiseases)
+	r.GET("/disease/:id", controllers.FindDisease)
+	r.POST("/disease/", controllers.CreateDisease)
+	r.PATCH("/disease/:id", controllers.UpdateDisease)
+	r.DELETE("/disease/:id", controllers.DeleteDisease)
+	// recovery
+	r.GET("/diseases/deleted", controllers.FindDeletedDiseases)
+	r.DELETE("/disease/deleted/:id", controllers.RecoverDeletedDisease)
+
 	// run the server
 	r.Run()
 }

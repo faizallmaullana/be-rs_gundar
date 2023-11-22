@@ -14,7 +14,7 @@ type ListOfDiseases struct {
 	IsDeleted bool      `json:"is_deleted"`
 }
 
-type ListofDrugs struct {
+type ListOfDrugs struct {
 	ID            string `json:"id" gorm:"primary_key"`
 	Drug          string `json:"drug"`
 	Description   string `json:"description"`

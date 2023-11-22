@@ -37,7 +37,7 @@ func ConnectDatabase() {
 	// listDiseases
 	database.AutoMigrate(
 		&ListOfDiseases{},
-		&ListofDrugs{},
+		&ListOfDrugs{},
 		&ListOfHospitalChambers{},
 	)
 

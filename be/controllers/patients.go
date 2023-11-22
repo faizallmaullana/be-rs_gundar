@@ -98,7 +98,7 @@ func CreatePatient(c *gin.Context) {
 
 	models.DB.Create(&patient)
 
-	c.JSON(http.StatusOK, gin.H{"data": patient})
+	c.JSON(http.StatusCreated, gin.H{"data": patient})
 }
 
 // PATCH /patient/:id
@@ -123,7 +123,7 @@ func UpdatePatient(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": patient})
 }
 
-// PATCH /patient/delete/:id
+// DELETE /patient/delete/:id
 // delete a patient, set IsDeleted as true
 func DeletePatient(c *gin.Context) {
 	var patient models.Patient
@@ -148,7 +148,7 @@ func FindDeletedPatients(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": patients})
 }
 
-// PATCH /patient/deleted/:id
+// DELETE /patient/deleted/:id
 // recover deleted patient
 func RecoverDeletedPatient(c *gin.Context) {
 	var patient models.Patient
