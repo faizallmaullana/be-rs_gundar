@@ -40,7 +40,7 @@ type UpdatePatientInput struct {
 // get all patients
 func FindPatients(c *gin.Context) {
 	var patients []models.Patient
-	models.DB.Find(&patients)
+	models.DB.Where("is_deleted = ?", false).Find(&patients)
 
 	c.JSON(http.StatusOK, gin.H{"data": patients})
 }
@@ -50,12 +50,13 @@ func FindPatients(c *gin.Context) {
 func FindPatient(c *gin.Context) {
 	// get model if its exists
 	var patient models.Patient
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&patient).Error; err != nil {
+	if err := models.DB.Where("id = ? AND is_deleted = ?", c.Param("id"), false).First(&patient).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found"})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": patient})
+
 }
 
 // POST /patient
@@ -118,6 +119,45 @@ func UpdatePatient(c *gin.Context) {
 	}
 
 	models.DB.Model(&patient).Updates(input)
+
+	c.JSON(http.StatusOK, gin.H{"data": patient})
+}
+
+// PATCH /patient/delete/:id
+// delete a patient, set IsDeleted as true
+func DeletePatient(c *gin.Context) {
+	var patient models.Patient
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&patient).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
+	models.DB.Model(&patient).Updates(UpdatePatientInput{IsDeleted: true})
+
+	c.JSON(http.StatusOK, gin.H{"message": "Patient deleted successfully"})
+}
+
+// RECOVERY
+
+// GET /patient/deleted
+// get deleted patient
+func FindDeletedPatients(c *gin.Context) {
+	var patients []models.Patient
+	models.DB.Where("is_deleted = ?", true).Find(&patients)
+
+	c.JSON(http.StatusOK, gin.H{"data": patients})
+}
+
+// PATCH /patient/deleted/:id
+// recover deleted patient
+func RecoverDeletedPatient(c *gin.Context) {
+	var patient models.Patient
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&patient).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
+	models.DB.Model(&patient).Updates(map[string]interface{}{"is_deleted": false})
 
 	c.JSON(http.StatusOK, gin.H{"data": patient})
 }
