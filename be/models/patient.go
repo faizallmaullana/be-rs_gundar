@@ -12,30 +12,39 @@ type Patient struct {
 	BirthDate sql.NullTime `json:"birthdate"`
 	Address   string       `json:"address"`
 
+	// status
 	CreatedAt time.Time `json:"created_at"`
 	IsDeleted bool      `json:"is_deleted"`
-}
-
-type DiseaseHistory struct {
-	ID string `json:"id" gorm:"primary_key"`
-
-	CreatedAt time.Time `json:"created_at"`
-	IsDeleted bool      `json:"is_deleted"`
-
-	ListOfDiseasesID string         `json:"list_of_diseases_id"`
-	ListOfDiseases   ListOfDiseases `json:"list_of_diseases_list" gorm:"foreignKey:ListOfDiseasesID"`
 }
 
 type TreatmentHistory struct {
 	ID string `json:"id" gorm:"primary_key"`
 
+	// foreign
+	PatientID        string         `json:"patient_id"`
+	Patient          Patient        `json:"patient" gorm:"foreignKey:PatientID"`
+	DoctorID         string         `json:"doctor_id"`
+	Doctor           Doctor         `json:"doctor" gorm:"foreignKey:DoctorID"`
+	ListOfDiseasesID string         `json:"list_of_diseases_id"`
+	ListOfDiseases   ListOfDiseases `json:"list_of_diseases" gorm:"foreignKey:ListOfDiseasesID"`
+
+	// status
 	CreatedAt time.Time `json:"created_at"`
 	IsDeleted bool      `json:"is_deleted"`
 }
 
 type DrugConsumptionHistory struct {
-	ID string `json:"id" gorm:"primary_key"`
+	ID        string `json:"id" gorm:"primary_key"`
+	TotalDose string `json:"total_dose"`
+	DoseADay  int    `json:"dose_a_day"`
 
+	// foreign
+	PatientID string  `json:"patient_id"`
+	Patient   Patient `json:"patient" gorm:"foreignKey:PatientID"`
+	DoctorID  string  `json:"doctor_id"`
+	Doctor    Doctor  `json:"doctor" gorm:"foreignKey:DoctorID"`
+
+	// status
 	CreatedAt time.Time `json:"created_at"`
 	IsDeleted bool      `json:"is_deleted"`
 }
@@ -43,34 +52,15 @@ type DrugConsumptionHistory struct {
 type HospitalizedHistory struct {
 	ID string `json:"id" gorm:"primary_key"`
 
+	// foreign
+	PatientID string  `json:"patient_id"`
+	Patient   Patient `json:"patient" gorm:"foreignKey:PatientID"`
+	DoctorID  string  `json:"doctor_id"`
+	Doctor    Doctor  `json:"doctor" gorm:"foreignKey:DoctorID"`
+
+	// status
+	IsOut     bool      `json:"is_out"`
 	CreatedAt time.Time `json:"created_at"`
-	IsDeleted bool      `json:"is_deleted"`
-}
-
-type ListOfDiseases struct {
-	ID string `json:"id" gorm:"primary_key"`
-
-	CreatedAt time.Time `json:"created_at"`
-	IsDeleted bool      `json:"is_deleted"`
-}
-
-type ListofDrugs struct {
-	ID string `json:"id" gorm:"primary_key"`
-
-	CreatedAt time.Time `json:"created_at"`
-	IsDeleted bool      `json:"is_deleted"`
-}
-
-type ListOfHospitalChabers struct {
-	ID string `json:"id" gorm:"primary_key"`
-
-	CreatedAt time.Time `json:"created_at"`
-	IsDeleted bool      `json:"is_deleted"`
-}
-
-type ListOfTreatments struct {
-	ID string `json:"id" gorm:"primary_key"`
-
-	CreatedAt time.Time `json:"created_at"`
+	OutAt     time.Time `json:"out_at"`
 	IsDeleted bool      `json:"is_deleted"`
 }

@@ -15,10 +15,30 @@ func ConnectDatabase() {
 		panic("Failed to connect to database!")
 	}
 
+	// admin
+	database.AutoMigrate(
+		&Administrator{},
+	)
+
+	// doctor
+	database.AutoMigrate(
+		&Doctor{},
+		&ListOfSpecialties{},
+	)
+
+	// patient
 	database.AutoMigrate(
 		&Patient{},
+		&TreatmentHistory{},
+		&DrugConsumptionHistory{},
+		&HospitalizedHistory{},
+	)
+
+	// listDiseases
+	database.AutoMigrate(
 		&ListOfDiseases{},
-		&DiseaseHistory{},
+		&ListofDrugs{},
+		&ListOfHospitalChambers{},
 	)
 
 	DB = database
