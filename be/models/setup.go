@@ -17,25 +17,20 @@ func ConnectDatabase() {
 
 	// admin
 	database.AutoMigrate(
+		// Admin
 		&Administrator{},
-	)
 
-	// doctor
-	database.AutoMigrate(
+		// Doctor
 		&Doctor{},
-		&ListOfSpecialties{},
-	)
+		&DoctorSpecialties{},
 
-	// patient
-	database.AutoMigrate(
+		// Patient
 		&Patient{},
 		&TreatmentHistory{},
 		&DrugConsumptionHistory{},
 		&HospitalizedHistory{},
-	)
 
-	// listDiseases
-	database.AutoMigrate(
+		// List of disease
 		&ListOfDiseases{},
 		&ListOfDrugs{},
 		&ListOfHospitalChambers{},
@@ -48,7 +43,7 @@ func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, DELETE, GET, PATCH")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 
 		if c.Request.Method == "OPTIONS" {

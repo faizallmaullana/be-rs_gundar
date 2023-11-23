@@ -9,45 +9,45 @@ import (
 	"github.com/google/uuid"
 )
 
-type CreateDiseaseInput struct {
+type CreateChamberInput struct {
 	ID          string `json:"id" gorm:"primary_key"`
-	Disease     string `json:"disease"` // buat satu disease dengan nama kondisi baik
-	Description string `json:"description"`
-	Infectious  string `json:"infectious"` // apakah menular
+	ChamberName string `json:"chamber_name"`
+	Capacity    int    `json:"capacity"`
+	// for see the filled capacity, substract hospitalization chamber that status of isOut 1 on the patient
+	// capacity - isOut
 
 	// status
-	IsNew     bool      `json:"is_new"`
 	CreatedAt time.Time `json:"created_at"`
 	IsDeleted bool      `json:"is_deleted"`
 }
 
-type UpdateDiseaseInput struct {
+type UpdateChamberInput struct {
 	ID          string `json:"id" gorm:"primary_key"`
-	Disease     string `json:"disease"` // buat satu disease dengan nama kondisi baik
-	Description string `json:"description"`
-	Infectious  string `json:"infectious"` // apakah menular
+	ChamberName string `json:"chamber_name"`
+	Capacity    int    `json:"capacity"`
+	// for see the filled capacity, substract hospitalization chamber that status of isOut 1 on the patient
+	// capacity - isOut
 
 	// status
-	IsNew     bool      `json:"is_new"`
 	CreatedAt time.Time `json:"created_at"`
 	IsDeleted bool      `json:"is_deleted"`
 }
 
-// List Of Disease
+// List Of Chamber
 
-// GET /diseases
-// get all disease information
-func FindDiseases(c *gin.Context) {
-	var dt []models.ListOfDiseases
+// GET /chambers
+// get all chambers information
+func FindChambers(c *gin.Context) {
+	var dt []models.ListOfHospitalChambers
 	models.DB.Where("is_deleted = ?", false).Find(&dt)
 
 	c.JSON(http.StatusOK, gin.H{"data": dt})
 }
 
-// GET /disease/:id
-// get disease by id
-func FindDisease(c *gin.Context) {
-	var dt models.ListOfDiseases
+// GET /chamber/:id
+// get chamber by id
+func FindChamber(c *gin.Context) {
+	var dt models.ListOfHospitalChambers
 	if err := models.DB.Where("id = ? AND is_deleted = ?", c.Param("id"), false).First(&dt).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Record not found"})
 		return
@@ -56,10 +56,10 @@ func FindDisease(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": dt})
 }
 
-// POST /disease
-// create new disease list
-func CreateDisease(c *gin.Context) {
-	var input CreateDiseaseInput
+// POST /chamber
+// create new chamber list
+func CreateChamber(c *gin.Context) {
+	var input CreateChamberInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -74,16 +74,11 @@ func CreateDisease(c *gin.Context) {
 	// Auto-set IsDeleted as 0
 	input.IsDeleted = false
 
-	// auto-set isNew to true
-	input.IsNew = true
-
-	// create new disease
-	dt := models.ListOfDiseases{
+	// create new chamber
+	dt := models.ListOfHospitalChambers{
 		ID:          input.ID,
-		Disease:     input.Disease,
-		Description: input.Description,
-		Infectious:  input.Infectious,
-		IsNew:       input.IsNew,
+		ChamberName: input.ChamberName,
+		Capacity:    input.Capacity,
 		CreatedAt:   input.CreatedAt,
 		IsDeleted:   input.IsDeleted,
 	}
@@ -93,17 +88,17 @@ func CreateDisease(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"data": dt})
 }
 
-// PATCH /disease/:id
-// update disease
-func UpdateDisease(c *gin.Context) {
-	var dt models.ListOfDiseases
+// PATCH /chamber/:id
+// update chamber
+func UpdateChamber(c *gin.Context) {
+	var dt models.ListOfHospitalChambers
 	if err := models.DB.Where("id = ?", c.Param("id")).First(&dt).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
 
 	// validate input
-	var input UpdateDiseaseInput
+	var input UpdateChamberInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -116,35 +111,35 @@ func UpdateDisease(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"data": dt})
 }
 
-// DELETE /disease/delete/:id
+// DELETE /chamber/delete/:id
 // delete a patient, set IsDeleted as true
-func DeleteDisease(c *gin.Context) {
-	var dt models.ListOfDiseases
+func DeleteChamber(c *gin.Context) {
+	var dt models.ListOfHospitalChambers
 	if err := models.DB.Where("id = ?", c.Param("id")).First(&dt).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
 
-	models.DB.Model(&dt).Updates(UpdateDiseaseInput{IsDeleted: true})
+	models.DB.Model(&dt).Updates(UpdateChamberInput{IsDeleted: true})
 
-	c.JSON(http.StatusOK, gin.H{"message": "Disease deleted successfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "Chamber deleted successfully"})
 }
 
 // RECOVERY
 
-// GET /diseases/deleted
-// get deleted disease
-func FindDeletedDiseases(c *gin.Context) {
-	var dt []models.ListOfDiseases
+// GET /chambers/deleted
+// get deleted chamber
+func FindDeletedChambers(c *gin.Context) {
+	var dt []models.ListOfHospitalChambers
 	models.DB.Where("is_deleted = ?", true).Find(&dt)
 
 	c.JSON(http.StatusOK, gin.H{"data": dt})
 }
 
-// DELETE /disease/deleted/:id
+// DELETE /chamber/deleted/:id
 // recover deleted patient
-func RecoverDeletedDisease(c *gin.Context) {
-	var dt models.ListOfDiseases
+func RecoverDeletedChamber(c *gin.Context) {
+	var dt models.ListOfHospitalChambers
 	if err := models.DB.Where("id = ?", c.Param("id")).First(&dt).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return

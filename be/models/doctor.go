@@ -16,12 +16,13 @@ type Doctor struct {
 	IsDeleted bool      `json:"is_deleted"`
 }
 
-type ListOfSpecialties struct {
+type DoctorSpecialties struct {
 	ID          string `json:"id" gorm:"primary_key"`
 	Specialties string `json:"specialties"`
 	Description string `json:"description"`
 
 	// status
+	IsNew     bool      `json:"is_new"`
 	CreatedAt time.Time `json:"created_at"`
 	IsDeleted bool      `json:"is_deleted"`
 }

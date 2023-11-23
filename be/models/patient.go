@@ -39,10 +39,12 @@ type DrugConsumptionHistory struct {
 	DoseADay  int    `json:"dose_a_day"`
 
 	// foreign
-	PatientID string  `json:"patient_id"`
-	Patient   Patient `json:"patient" gorm:"foreignKey:PatientID"`
-	DoctorID  string  `json:"doctor_id"`
-	Doctor    Doctor  `json:"doctor" gorm:"foreignKey:DoctorID"`
+	PatientID        string         `json:"patient_id"`
+	Patient          Patient        `json:"patient" gorm:"foreignKey:PatientID"`
+	DoctorID         string         `json:"doctor_id"`
+	Doctor           Doctor         `json:"doctor" gorm:"foreignKey:DoctorID"`
+	ListOfDiseasesID string         `json:"list_of_diseases_id"`
+	ListOfDiseases   ListOfDiseases `json:"list_of_diseases" gorm:"foreignKey:ListOfDiseasesID"`
 
 	// status
 	CreatedAt time.Time `json:"created_at"`
@@ -53,10 +55,12 @@ type HospitalizedHistory struct {
 	ID string `json:"id" gorm:"primary_key"`
 
 	// foreign
-	PatientID string  `json:"patient_id"`
-	Patient   Patient `json:"patient" gorm:"foreignKey:PatientID"`
-	DoctorID  string  `json:"doctor_id"`
-	Doctor    Doctor  `json:"doctor" gorm:"foreignKey:DoctorID"`
+	PatientID        string         `json:"patient_id"`
+	Patient          Patient        `json:"patient" gorm:"foreignKey:PatientID"`
+	DoctorID         string         `json:"doctor_id"`
+	Doctor           Doctor         `json:"doctor" gorm:"foreignKey:DoctorID"`
+	ListOfDiseasesID string         `json:"list_of_diseases_id"`
+	ListOfDiseases   ListOfDiseases `json:"list_of_diseases" gorm:"foreignKey:ListOfDiseasesID"`
 
 	// status
 	IsOut     bool      `json:"is_out"`

@@ -30,7 +30,7 @@ type ListOfHospitalChambers struct {
 	ID          string `json:"id" gorm:"primary_key"`
 	ChamberName string `json:"chamber_name"`
 	Capacity    int    `json:"capacity"`
-	// for see the filled capacity, substract hospitalization chamber that status of isOut 1
+	// for see the filled capacity, substract hospitalization chamber that status of isOut 1 on the patient
 	// capacity - isOut
 
 	// status
