@@ -1,16 +1,15 @@
 package models
 
 import (
-	"database/sql"
 	"time"
 )
 
 type Doctor struct {
-	ID        string       `json:"id" gorm:"primary_key"`
-	Name      string       `json:"name"`
-	Gender    string       `json:"gender"`
-	BirthDate sql.NullTime `json:"birthdate"`
-	Address   string       `json:"address"`
+	ID        string    `json:"id" gorm:"primary_key"`
+	Name      string    `json:"name"`
+	Gender    string    `json:"gender"`
+	BirthDate time.Time `json:"birthdate"`
+	Address   string    `json:"address"`
 
 	// status
 	CreatedAt time.Time `json:"created_at"`

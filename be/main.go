@@ -4,7 +4,9 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
-	"github.com/faizallmaullana/rs_gundar/controllers"
+	"github.com/faizallmaullana/rs_gundar/controllers/doctors"
+	"github.com/faizallmaullana/rs_gundar/controllers/listdiseases"
+	"github.com/faizallmaullana/rs_gundar/controllers/patients"
 	"github.com/faizallmaullana/rs_gundar/models"
 )
 
@@ -24,25 +26,42 @@ func main() {
 	r.Use(cors.New(corsConfig))
 
 	// ROUTES
-	// Patient
-	r.GET("/patients", controllers.FindPatients)
-	r.GET("/patient/:id", controllers.FindPatient)
-	r.POST("/patient/", controllers.CreatePatient)
-	r.PATCH("/patient/:id", controllers.UpdatePatient)
-	r.DELETE("/patient/:id", controllers.DeletePatient)
-	// recovery
-	r.GET("/patients/deleted", controllers.FindDeletedPatients)
-	r.DELETE("/patient/deleted/:id", controllers.RecoverDeletedPatient)
 
-	// ListOfDiseases
-	r.GET("/diseases", controllers.FindDiseases)
-	r.GET("/disease/:id", controllers.FindDisease)
-	r.POST("/disease/", controllers.CreateDisease)
-	r.PATCH("/disease/:id", controllers.UpdateDisease)
-	r.DELETE("/disease/:id", controllers.DeleteDisease)
+	// ADMIN
+	// Administrators
+
+	// PATIENT
+	// Patient
+	r.GET("/patients", patients.FindPatients)
+	r.GET("/patient/:id", patients.FindPatient)
+	r.POST("/patient/", patients.CreatePatient)
+	r.PATCH("/patient/:id", patients.UpdatePatient)
+	r.DELETE("/patient/:id", patients.DeletePatient)
 	// recovery
-	r.GET("/diseases/deleted", controllers.FindDeletedDiseases)
-	r.DELETE("/disease/deleted/:id", controllers.RecoverDeletedDisease)
+	r.GET("/patients/deleted", patients.FindDeletedPatients)
+	r.DELETE("/patient/deleted/:id", patients.RecoverDeletedPatient)
+
+	// DOCTORS
+	// Doctor
+	r.GET("/doctors", doctors.FindDoctors)
+	r.GET("/doctor/:id", doctors.FindDoctor)
+	r.POST("/doctor/", doctors.CreateDoctor)
+	r.PATCH("/doctor/:id", doctors.UpdateDoctor)
+	r.DELETE("/doctor/:id", doctors.DeleteDoctor)
+	// recovery
+	r.GET("/doctors/deleted", doctors.FindDeletedDoctor)
+	r.DELETE("/doctor/deleted/:id", doctors.RecoverDeletedDoctor)
+
+	// LIST OF DISEASE
+	// ListOfDiseases
+	r.GET("/diseases", listdiseases.FindDiseases)
+	r.GET("/disease/:id", listdiseases.FindDisease)
+	r.POST("/disease/", listdiseases.CreateDisease)
+	r.PATCH("/disease/:id", listdiseases.UpdateDisease)
+	r.DELETE("/disease/:id", listdiseases.DeleteDisease)
+	// recovery
+	r.GET("/diseases/deleted", listdiseases.FindDeletedDiseases)
+	r.DELETE("/disease/deleted/:id", listdiseases.RecoverDeletedDisease)
 
 	// run the server
 	r.Run()
