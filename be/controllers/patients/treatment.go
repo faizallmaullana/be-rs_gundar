@@ -173,3 +173,44 @@ func RecoverDeletedTreatment(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": dt})
 }
+
+// GROUP SEARCH
+
+// /treatment/doctor/:doctor_id
+func FindTreatmentGDoctor(c *gin.Context) {
+	var dt []models.TreatmentHistory
+	if err := models.DB.Preload("Patient").Preload("Doctor").Preload("ListOfDiseases").
+		Where("doctor_id = ? AND is_deleted = ?", c.Param("doctor_id"), false).
+		Find(&dt).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve treatments"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": dt})
+}
+
+// /treatment/patient/:patient_id
+func FindTreatmentGPatient(c *gin.Context) {
+	var dt []models.TreatmentHistory
+	if err := models.DB.Preload("Patient").Preload("Doctor").Preload("ListOfDiseases").
+		Where("patient_id = ? AND is_deleted = ?", c.Param("patient_id"), false).
+		Find(&dt).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve treatments"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": dt})
+}
+
+// /treatment/doctor/:id_doctor
+func FindTreatmentGListdisease(c *gin.Context) {
+	var dt []models.TreatmentHistory
+	if err := models.DB.Preload("Patient").Preload("Doctor").Preload("ListOfDiseases").
+		Where("list_of_diseases_id = ? AND is_deleted = ?", c.Param("disease_id"), false).
+		Find(&dt).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve treatments"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": dt})
+}

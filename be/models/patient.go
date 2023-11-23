@@ -55,12 +55,14 @@ type HospitalizedHistory struct {
 	ID string `json:"id" gorm:"primary_key"`
 
 	// foreign
-	PatientID        string         `json:"patient_id"`
-	Patient          Patient        `json:"patient" gorm:"foreignKey:PatientID"`
-	DoctorID         string         `json:"doctor_id"`
-	Doctor           Doctor         `json:"doctor" gorm:"foreignKey:DoctorID"`
-	ListOfDiseasesID string         `json:"list_of_diseases_id"`
-	ListOfDiseases   ListOfDiseases `json:"list_of_diseases" gorm:"foreignKey:ListOfDiseasesID"`
+	PatientID        string                 `json:"patient_id"`
+	Patient          Patient                `json:"patient" gorm:"foreignKey:PatientID"`
+	DoctorID         string                 `json:"doctor_id"`
+	Doctor           Doctor                 `json:"doctor" gorm:"foreignKey:DoctorID"`
+	ListOfDiseasesID string                 `json:"list_of_diseases_id"`
+	ListOfDiseases   ListOfDiseases         `json:"list_of_diseases" gorm:"foreignKey:ListOfDiseasesID"`
+	ChamberID        string                 `json:"chamber_id"`
+	Chamber          ListOfHospitalChambers `json:"list_chamber" gorm:"foreignKey:ListOfHospitalChambers"`
 
 	// status
 	IsOut     bool      `json:"is_out"`

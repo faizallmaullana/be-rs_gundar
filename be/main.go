@@ -59,6 +59,10 @@ func main() {
 	// recovery
 	r.GET("/treatments/deleted", patients.FindDeletedTreatments)
 	r.DELETE("/treatment/deleted/:id", patients.RecoverDeletedTreatment)
+	// group searches
+	r.GET("/treatment/doctor/:doctor_id", patients.FindTreatmentGDoctor)
+	r.GET("/treatment/patient/:patient_id", patients.FindTreatmentGPatient)
+	r.GET("/treatment/disease/:disease_id", patients.FindTreatmentGListdisease)
 
 	// Drug Consumption History
 	r.GET("/drugconss", patients.FindDrugconss)
@@ -69,6 +73,10 @@ func main() {
 	// recovery
 	r.GET("/drugconss/deleted", patients.FindDeletedDrugconss)
 	r.DELETE("/drugcons/deleted/:id", patients.RecoverDeletedDrugcons)
+	// group searches
+	r.GET("/drugcons/doctor/:doctor_id", patients.FindDrugconsGDoctor)
+	r.GET("/drugcons/patient/:patient_id", patients.FindDrugconsGPatient)
+	r.GET("/drugcons/disease/:disease_id", patients.FindDrugconsGListdisease)
 
 	// HospitalizedHistory
 	r.GET("/hospitals", patients.FindHospitals)
@@ -79,6 +87,10 @@ func main() {
 	// recovery
 	r.GET("/hospitals/deleted", patients.FindDeletedHospitals)
 	r.DELETE("/hospital/deleted/:id", patients.RecoverDeletedHospital)
+	// group searches
+	r.GET("/hospital/doctor/:doctor_id", patients.FindHospitalGDoctor)
+	r.GET("/hospital/patient/:patient_id", patients.FindHospitalGPatient)
+	r.GET("/hospital/disease/:disease_id", patients.FindHospitalGListdisease)
 
 	// DOCTORS
 	// Doctor

@@ -175,3 +175,44 @@ func RecoverDeletedDrugcons(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": dt})
 }
+
+// GROUP SEARCH
+
+// /drugcons/doctor/:doctor_id
+func FindDrugconsGDoctor(c *gin.Context) {
+	var dt []models.DrugConsumptionHistory
+	if err := models.DB.Preload("Patient").Preload("Doctor").Preload("ListOfDiseases").
+		Where("doctor_id = ? AND is_deleted = ?", c.Param("doctor_id"), false).
+		Find(&dt).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve drugconss"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": dt})
+}
+
+// /drugcons/patient/:patient_id
+func FindDrugconsGPatient(c *gin.Context) {
+	var dt []models.DrugConsumptionHistory
+	if err := models.DB.Preload("Patient").Preload("Doctor").Preload("ListOfDiseases").
+		Where("patient_id = ? AND is_deleted = ?", c.Param("patient_id"), false).
+		Find(&dt).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve drugconss"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": dt})
+}
+
+// /drugcons/doctor/:id_doctor
+func FindDrugconsGListdisease(c *gin.Context) {
+	var dt []models.DrugConsumptionHistory
+	if err := models.DB.Preload("Patient").Preload("Doctor").Preload("ListOfDiseases").
+		Where("list_of_diseases_id = ? AND is_deleted = ?", c.Param("disease_id"), false).
+		Find(&dt).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve drugconss"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": dt})
+}

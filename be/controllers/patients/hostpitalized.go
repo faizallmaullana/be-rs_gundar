@@ -19,6 +19,8 @@ type CreateHospitalizedInput struct {
 	Doctor           string `json:"doctor" gorm:"foreignKey:DoctorID"`
 	ListOfDiseasesID string `json:"list_of_diseases_id"`
 	ListOfDiseases   string `json:"list_of_diseases" gorm:"foreignKey:ListOfDiseasesID"`
+	ChamberID        string `json:"chamber_id"`
+	Chamber          string `json:"list_chamber" gorm:"foreignKey:ListOfHospitalChambers"`
 
 	// status
 	IsOut     bool      `json:"is_out"`
@@ -37,6 +39,8 @@ type UpdateHospitalizedInput struct {
 	Doctor           string `json:"doctor" gorm:"foreignKey:DoctorID"`
 	ListOfDiseasesID string `json:"list_of_diseases_id"`
 	ListOfDiseases   string `json:"list_of_diseases" gorm:"foreignKey:ListOfDiseasesID"`
+	ChamberID        string `json:"chamber_id"`
+	Chamber          string `json:"list_chamber" gorm:"foreignKey:ListOfHospitalChambers"`
 
 	// status
 	IsOut     bool      `json:"is_out"`
@@ -103,6 +107,7 @@ func CreateHospital(c *gin.Context) {
 		PatientID:        input.PatientID,
 		DoctorID:         input.DoctorID,
 		ListOfDiseasesID: input.ListOfDiseasesID,
+		ChamberID:        input.ChamberID,
 		IsOut:            input.IsOut,
 		CreatedAt:        input.CreatedAt,
 		IsDeleted:        input.IsDeleted,
@@ -175,6 +180,47 @@ func RecoverDeletedHospital(c *gin.Context) {
 	}
 
 	models.DB.Model(&dt).Updates(map[string]interface{}{"is_deleted": false})
+
+	c.JSON(http.StatusOK, gin.H{"data": dt})
+}
+
+// GROUP SEARCH
+
+// /hospital/doctor/:doctor_id
+func FindHospitalGDoctor(c *gin.Context) {
+	var dt []models.HospitalizedHistory
+	if err := models.DB.Preload("Patient").Preload("Doctor").Preload("ListOfDiseases").
+		Where("doctor_id = ? AND is_deleted = ?", c.Param("doctor_id"), false).
+		Find(&dt).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve hospitals"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": dt})
+}
+
+// /hospital/patient/:patient_id
+func FindHospitalGPatient(c *gin.Context) {
+	var dt []models.HospitalizedHistory
+	if err := models.DB.Preload("Patient").Preload("Doctor").Preload("ListOfDiseases").
+		Where("patient_id = ? AND is_deleted = ?", c.Param("patient_id"), false).
+		Find(&dt).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve hospitals"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": dt})
+}
+
+// /hospital/doctor/:id_doctor
+func FindHospitalGListdisease(c *gin.Context) {
+	var dt []models.HospitalizedHistory
+	if err := models.DB.Preload("Patient").Preload("Doctor").Preload("ListOfDiseases").
+		Where("list_of_diseases_id = ? AND is_deleted = ?", c.Param("disease_id"), false).
+		Find(&dt).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve hospitals"})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{"data": dt})
 }
