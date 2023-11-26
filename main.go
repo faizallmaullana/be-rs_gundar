@@ -145,5 +145,5 @@ func main() {
 	r.DELETE("/chamber/deleted/:id", listdiseases.RecoverDeletedChamber)
 
 	// run the server
-	r.Run()
+	r.Run(":9888")
 }
