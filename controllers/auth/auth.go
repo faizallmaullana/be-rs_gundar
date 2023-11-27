@@ -27,6 +27,13 @@ func RegisterToAdmin(c *gin.Context) {
 		return
 	}
 
+	// Check if the username already exists
+	var existingAdmin models.LoginAdministrator
+	if err := models.DB.Where("username = ?", input.Username).First(&existingAdmin).Error; err == nil {
+		c.JSON(http.StatusConflict, gin.H{"error": "Username already exists"})
+		return
+	}
+
 	// cek token
 	if input.Token != "tokenadmin" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token salah"})

@@ -17,6 +17,10 @@ func ConnectDatabase() {
 
 	// admin
 	database.AutoMigrate(
+		// Auth
+		&LoginAdministrator{},
+		&LoginDoctor{},
+
 		// Admin
 		&Administrator{},
 
