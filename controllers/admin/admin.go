@@ -15,6 +15,7 @@ type CreateAdminInput struct {
 	Gender    string `json:"gender"`
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
+	Token     string `json:"token"`
 
 	CreatedAt time.Time `json:"created_at"`
 	IsDeleted bool      `json:"is_deleted"`

@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/faizallmaullana/rs_gundar/controllers/admin"
+	"github.com/faizallmaullana/rs_gundar/controllers/auth"
 	"github.com/faizallmaullana/rs_gundar/controllers/doctors"
 	"github.com/faizallmaullana/rs_gundar/controllers/listdiseases"
 	"github.com/faizallmaullana/rs_gundar/controllers/patients"
@@ -27,6 +28,14 @@ func main() {
 	r.Use(cors.New(corsConfig))
 
 	// ROUTES
+
+	// AUTH
+	// Administrator
+	r.POST("/auth/admin/register", auth.RegisterToAdmin)
+	r.POST("/auth/admin/login", auth.LoginToAdmin)
+	// Doctor
+	r.POST("/auth/doctor/register", auth.RegisterToDoctor)
+	r.POST("/auth/doctor/login", auth.LoginToDoctor)
 
 	// ADMIN
 	// Administrators

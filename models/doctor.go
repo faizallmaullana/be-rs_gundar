@@ -4,6 +4,11 @@ import (
 	"time"
 )
 
+type LoginDoctor struct {
+	ID       string `json:"id" gorm:"primary_key"`
+	Password string `json:"password"`
+}
+
 type Doctor struct {
 	ID        string    `json:"id" gorm:"primary_key"`
 	Name      string    `json:"name"`
