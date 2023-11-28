@@ -16,6 +16,10 @@ type Doctor struct {
 	BirthDate time.Time `json:"birthdate"`
 	Address   string    `json:"address"`
 
+	// foreignkey
+	DoctorSpecialitiesID string            `json:"doctor_specialities_id"`
+	DoctorSpecialties    DoctorSpecialties `json:"doctor_specialities" gorm:"foreignKey:DoctorSpecialtiesID"`
+
 	// status
 	CreatedAt time.Time `json:"created_at"`
 	IsDeleted bool      `json:"is_deleted"`

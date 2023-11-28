@@ -115,12 +115,12 @@ func RegisterToDoctor(c *gin.Context) {
 
 	// Create Admin
 	dt := models.LoginDoctor{
-		ID:       input.ID,
+		ID:       input.Username,
 		Password: input.Password,
 	}
 
 	dt2 := models.Doctor{
-		ID:        input.ID,
+		ID:        input.Username,
 		CreatedAt: input.CreatedAt,
 		IsDeleted: input.IsDeleted,
 	}
@@ -142,7 +142,7 @@ func LoginToDoctor(c *gin.Context) {
 
 	// Find the doctor by username
 	var doctor models.LoginDoctor
-	if err := models.DB.Where("username = ?", input.Username).First(&doctor).Error; err != nil {
+	if err := models.DB.Where("id = ?", input.Username).First(&doctor).Error; err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
 		return
 	}
