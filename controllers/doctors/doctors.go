@@ -15,6 +15,9 @@ type CreateDoctorInput struct {
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
 
+	// foreign
+	DoctorSpecialitiesID string `json:"doctor_specialities_id"`
+
 	// status
 	CreatedAt time.Time `json:"created_at"`
 	IsDeleted bool      `json:"is_deleted"`
@@ -26,6 +29,9 @@ type UpdateDoctorInput struct {
 	Gender    string `json:"gender"`
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
+
+	// foreign
+	DoctorSpecialitiesID string `json:"doctor_specialities_id"`
 
 	// status
 	CreatedAt time.Time `json:"created_at"`
@@ -84,13 +90,14 @@ func CreateDoctor(c *gin.Context) {
 
 	// Create doctor
 	dt := models.Doctor{
-		ID:        input.ID,
-		Name:      input.Name,
-		Gender:    input.Gender,
-		BirthDate: parsedTime,
-		Address:   input.Address,
-		CreatedAt: input.CreatedAt,
-		IsDeleted: input.IsDeleted,
+		ID:                   input.ID,
+		Name:                 input.Name,
+		Gender:               input.Gender,
+		BirthDate:            parsedTime,
+		Address:              input.Address,
+		DoctorSpecialitiesID: input.DoctorSpecialitiesID,
+		CreatedAt:            input.CreatedAt,
+		IsDeleted:            input.IsDeleted,
 	}
 
 	models.DB.Create(&dt)
@@ -115,7 +122,23 @@ func UpdateDoctor(c *gin.Context) {
 		return
 	}
 
-	models.DB.Model(&dt).Updates(input)
+	layout := "01-02-2006"
+	parsedTime, err := time.Parse(layout, input.BirthDate)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Birthdate goes wrong"})
+		return
+	}
+
+	data := models.Doctor{
+		Name:                 input.Name,
+		BirthDate:            parsedTime,
+		Gender:               input.Gender,
+		Address:              input.Address,
+		DoctorSpecialitiesID: input.DoctorSpecialitiesID,
+	}
+
+	models.DB.Model(&dt).Updates(data)
 
 	c.JSON(http.StatusOK, gin.H{"data": dt})
 }

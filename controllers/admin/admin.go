@@ -116,7 +116,22 @@ func UpdateAdmin(c *gin.Context) {
 		return
 	}
 
-	models.DB.Model(&dt).Updates(input)
+	layout := "01-02-2006"
+	parsedTime, err := time.Parse(layout, input.BirthDate)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Birthdate goes wrong"})
+		return
+	}
+
+	data := models.Administrator{
+		Name:      input.Name,
+		Gender:    input.Gender,
+		BirthDate: parsedTime,
+		Address:   input.Address,
+	}
+
+	models.DB.Model(&dt).Updates(data)
 
 	c.JSON(http.StatusOK, gin.H{"data": dt})
 }
