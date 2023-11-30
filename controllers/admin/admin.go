@@ -12,7 +12,7 @@ import (
 type CreateAdminInput struct {
 	ID        string `json:"id" gorm:"primary_key"`
 	Name      string `json:"name"`
-	Gender    bool   `json:"gender"`
+	Gender    string `json:"gender"`
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
 	Token     string `json:"token"`
@@ -24,7 +24,7 @@ type CreateAdminInput struct {
 type UpdateAdminInput struct {
 	ID        string `json:"id" gorm:"primary_key"`
 	Name      string `json:"name"`
-	Gender    bool   `json:"gender"`
+	Gender    string `json:"gender"`
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
 
@@ -82,11 +82,20 @@ func CreateAdmin(c *gin.Context) {
 		return
 	}
 
+	// generate gender to bool
+	var statusGender bool
+
+	if input.Gender == "true" {
+		statusGender = true
+	} else {
+		statusGender = false
+	}
+
 	// Create Admin
 	dt := models.Administrator{
 		ID:        input.ID,
 		Name:      input.Name,
-		Gender:    input.Gender,
+		Gender:    statusGender,
 		BirthDate: parsedTime,
 		Address:   input.Address,
 		CreatedAt: input.CreatedAt,
@@ -123,9 +132,18 @@ func UpdateAdmin(c *gin.Context) {
 		return
 	}
 
+	// generate gender to bool
+	var statusGender bool
+
+	if input.Gender == "true" {
+		statusGender = true
+	} else {
+		statusGender = false
+	}
+
 	data := models.Administrator{
 		Name:      input.Name,
-		Gender:    input.Gender,
+		Gender:    statusGender,
 		BirthDate: parsedTime,
 		Address:   input.Address,
 	}

@@ -11,7 +11,7 @@ import (
 type CreateDoctorInput struct {
 	ID        string `json:"id" gorm:"primary_key"`
 	Name      string `json:"name"`
-	Gender    bool   `json:"gender"`
+	Gender    string `json:"gender"`
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
 
@@ -26,7 +26,7 @@ type CreateDoctorInput struct {
 type UpdateDoctorInput struct {
 	ID        string `json:"id" gorm:"primary_key"`
 	Name      string `json:"name"`
-	Gender    bool   `json:"gender"`
+	Gender    string `json:"gender"`
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
 
@@ -88,11 +88,20 @@ func CreateDoctor(c *gin.Context) {
 		return
 	}
 
+	// generate gender to bool
+	var statusGender bool
+
+	if input.Gender == "true" {
+		statusGender = true
+	} else {
+		statusGender = false
+	}
+
 	// Create doctor
 	dt := models.Doctor{
 		ID:                   input.ID,
 		Name:                 input.Name,
-		Gender:               input.Gender,
+		Gender:               statusGender,
 		BirthDate:            parsedTime,
 		Address:              input.Address,
 		DoctorSpecialitiesID: input.DoctorSpecialitiesID,
@@ -130,10 +139,20 @@ func UpdateDoctor(c *gin.Context) {
 		return
 	}
 
+	// generate gender to bool
+	var statusGender bool
+
+	if input.Gender == "true" {
+		statusGender = true
+	} else {
+		statusGender = false
+	}
+
+	// store data
 	data := models.Doctor{
 		Name:                 input.Name,
 		BirthDate:            parsedTime,
-		Gender:               input.Gender,
+		Gender:               statusGender,
 		Address:              input.Address,
 		DoctorSpecialitiesID: input.DoctorSpecialitiesID,
 	}

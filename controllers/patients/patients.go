@@ -11,6 +11,7 @@ import (
 
 type CreatePatientInput struct {
 	ID        string `json:"id" gorm:"primary_key"`
+	NIK       string `json:"nik"`
 	Name      string `json:"name"`
 	Gender    string `json:"gender"`
 	BirthDate string `json:"birthdate"`
@@ -23,6 +24,7 @@ type CreatePatientInput struct {
 
 type UpdatePatientInput struct {
 	ID        string `json:"id" gorm:"primary_key"`
+	NIK       string `json:"nik"`
 	Name      string `json:"name"`
 	Gender    string `json:"gender"`
 	BirthDate string `json:"birthdate"`
@@ -87,6 +89,7 @@ func CreatePatient(c *gin.Context) {
 	// Create patient
 	dt := models.Patient{
 		ID:        input.ID,
+		NIK:       input.NIK,
 		Name:      input.Name,
 		Gender:    input.Gender,
 		BirthDate: parsedTime,
@@ -126,6 +129,7 @@ func UpdatePatient(c *gin.Context) {
 	}
 
 	data := models.Patient{
+		NIK:       input.NIK,
 		Name:      input.Name,
 		Gender:    input.Gender,
 		BirthDate: parsedTime,

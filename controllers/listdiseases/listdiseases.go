@@ -77,12 +77,20 @@ func CreateDisease(c *gin.Context) {
 	// auto-set isNew to true
 	input.IsNew = true
 
+	// convert infeksi to bool
+	var infeksi bool
+	if input.Infectious == "true" {
+		infeksi = true
+	} else {
+		infeksi = false
+	}
+
 	// create new disease
 	dt := models.ListOfDiseases{
 		ID:          input.ID,
 		Disease:     input.Disease,
 		Description: input.Description,
-		Infectious:  input.Infectious,
+		Infectious:  infeksi,
 		IsNew:       input.IsNew,
 		CreatedAt:   input.CreatedAt,
 		IsDeleted:   input.IsDeleted,
@@ -109,7 +117,21 @@ func UpdateDisease(c *gin.Context) {
 		return
 	}
 
-	models.DB.Model(&dt).Updates(input)
+	// convert infeksi to bool
+	var infeksi bool
+	if input.Infectious == "true" {
+		infeksi = true
+	} else {
+		infeksi = false
+	}
+
+	data := models.ListOfDiseases{
+		Disease:     input.Disease,
+		Description: input.Description,
+		Infectious:  infeksi,
+	}
+
+	models.DB.Model(&dt).Updates(data)
 
 	models.DB.Model(&dt).Updates(map[string]interface{}{"is_new": false})
 

@@ -39,10 +39,9 @@ func main() {
 
 	// ADMIN
 	// Administrators
-	// r.GET("/admin/username/:id", admin.FindAdminUsername)
 	r.GET("/admins", admin.FindAdmins)
 	r.GET("/admin/:id", admin.FindAdmin)
-	r.POST("/admin/", admin.CreateAdmin)
+	r.POST("/admin", admin.CreateAdmin)
 	r.PATCH("/admin/:id", admin.UpdateAdmin)
 	r.DELETE("/admin/:id", admin.DeleteAdmin)
 	// recovery
@@ -53,7 +52,7 @@ func main() {
 	// Patient
 	r.GET("/patients", patients.FindPatients)
 	r.GET("/patient/:id", patients.FindPatient)
-	r.POST("/patient/", patients.CreatePatient)
+	r.POST("/patient", patients.CreatePatient)
 	r.PATCH("/patient/:id", patients.UpdatePatient)
 	r.DELETE("/patient/:id", patients.DeletePatient)
 	// recovery
@@ -63,7 +62,7 @@ func main() {
 	// Treatment History
 	r.GET("/treatments", patients.FindTreatments)
 	r.GET("/treatment/:id", patients.FindTreatment)
-	r.POST("/treatment/", patients.CreateTreatment)
+	r.POST("/treatment", patients.CreateTreatment)
 	r.PATCH("/treatment/:id", patients.UpdateTreatment)
 	r.DELETE("/treatment/:id", patients.DeleteTreatment)
 	// recovery
@@ -77,7 +76,7 @@ func main() {
 	// Drug Consumption History
 	r.GET("/drugconss", patients.FindDrugconss)
 	r.GET("/drugcons/:id", patients.FindDrugcons)
-	r.POST("/drugcons/", patients.CreateDrugcons)
+	r.POST("/drugcons", patients.CreateDrugcons)
 	r.PATCH("/drugcons/:id", patients.UpdateDrugcons)
 	r.DELETE("/drugcons/:id", patients.DeleteDrugcons)
 	// recovery
@@ -91,7 +90,7 @@ func main() {
 	// HospitalizedHistory
 	r.GET("/hospitals", patients.FindHospitals)
 	r.GET("/hospital/:id", patients.FindHospital)
-	r.POST("/hospital/", patients.CreateHospital)
+	r.POST("/hospital", patients.CreateHospital)
 	r.PATCH("/hospital/:id", patients.UpdateHospital)
 	r.DELETE("/hospital/:id", patients.DeleteHospital)
 	// recovery
@@ -106,7 +105,7 @@ func main() {
 	// Doctor
 	r.GET("/doctors", doctors.FindDoctors)
 	r.GET("/doctor/:id", doctors.FindDoctor)
-	r.POST("/doctor/", doctors.CreateDoctor)
+	r.POST("/doctor", doctors.CreateDoctor)
 	r.PATCH("/doctor/:id", doctors.UpdateDoctor)
 	r.DELETE("/doctor/:id", doctors.DeleteDoctor)
 	// recovery
@@ -116,7 +115,7 @@ func main() {
 	// Doctor Specialties
 	r.GET("/docspecs", doctors.FindDocspecs)
 	r.GET("/docspec/:id", doctors.FindDocspec)
-	r.POST("/docspec/", doctors.CreateDocspec)
+	r.POST("/docspec", doctors.CreateDocspec)
 	r.PATCH("/docspec/:id", doctors.UpdateDocspec)
 	r.DELETE("/docspec/:id", doctors.DeleteDocspec)
 	// recovery
@@ -127,7 +126,7 @@ func main() {
 	// ListOfDiseases
 	r.GET("/diseases", listdiseases.FindDiseases)
 	r.GET("/disease/:id", listdiseases.FindDisease)
-	r.POST("/disease/", listdiseases.CreateDisease)
+	r.POST("/disease", listdiseases.CreateDisease)
 	r.PATCH("/disease/:id", listdiseases.UpdateDisease)
 	r.DELETE("/disease/:id", listdiseases.DeleteDisease)
 	// recovery
@@ -137,7 +136,7 @@ func main() {
 	// ListOfDrugs
 	r.GET("/drugs", listdiseases.FindDrugs)
 	r.GET("/drug/:id", listdiseases.FindDrug)
-	r.POST("/drug/", listdiseases.CreateDrug)
+	r.POST("/drug", listdiseases.CreateDrug)
 	r.PATCH("/drug/:id", listdiseases.UpdateDrug)
 	r.DELETE("/drug/:id", listdiseases.DeleteDrug)
 	// recovery
@@ -147,7 +146,7 @@ func main() {
 	// ListOfHospitalChambers
 	r.GET("/chambers", listdiseases.FindChambers)
 	r.GET("/chamber/:id", listdiseases.FindChamber)
-	r.POST("/chamber/", listdiseases.CreateChamber)
+	r.POST("/chamber", listdiseases.CreateChamber)
 	r.PATCH("/chamber/:id", listdiseases.UpdateChamber)
 	r.DELETE("/chamber/:id", listdiseases.DeleteChamber)
 	// recovery

@@ -6,7 +6,7 @@ type ListOfDiseases struct {
 	ID          string `json:"id" gorm:"primary_key"`
 	Disease     string `json:"disease"` // buat satu disease dengan nama kondisi baik
 	Description string `json:"description"`
-	Infectious  string `json:"infectious"` // apakah menular
+	Infectious  bool   `json:"infectious"` // apakah menular
 
 	// status
 	IsNew     bool      `json:"is_new"`

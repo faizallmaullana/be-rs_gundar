@@ -6,6 +6,7 @@ import (
 
 type Patient struct {
 	ID        string    `json:"id" gorm:"primary_key"`
+	NIK       string    `json:"nik"`
 	Name      string    `json:"name"`
 	Gender    string    `json:"gender"`
 	BirthDate time.Time `json:"birthdate"`
