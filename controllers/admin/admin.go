@@ -12,7 +12,7 @@ import (
 type CreateAdminInput struct {
 	ID        string `json:"id" gorm:"primary_key"`
 	Name      string `json:"name"`
-	Gender    string `json:"gender"`
+	Gender    bool   `json:"gender"`
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
 	Token     string `json:"token"`
@@ -24,7 +24,7 @@ type CreateAdminInput struct {
 type UpdateAdminInput struct {
 	ID        string `json:"id" gorm:"primary_key"`
 	Name      string `json:"name"`
-	Gender    string `json:"gender"`
+	Gender    bool   `json:"gender"`
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
 
@@ -54,7 +54,6 @@ func FindAdmin(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": dt})
-
 }
 
 // POST /admin

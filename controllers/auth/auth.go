@@ -51,9 +51,9 @@ func RegisterToAdmin(c *gin.Context) {
 
 	// Create Admin
 	dt := models.LoginAdministrator{
-		ID:       input.ID,
-		Username: input.Username,
-		Password: input.Password,
+		AdministratorID: input.ID,
+		Username:        input.Username,
+		Password:        input.Password,
 	}
 
 	dt2 := models.Administrator{

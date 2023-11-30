@@ -11,7 +11,7 @@ import (
 type CreateDoctorInput struct {
 	ID        string `json:"id" gorm:"primary_key"`
 	Name      string `json:"name"`
-	Gender    string `json:"gender"`
+	Gender    bool   `json:"gender"`
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
 
@@ -26,7 +26,7 @@ type CreateDoctorInput struct {
 type UpdateDoctorInput struct {
 	ID        string `json:"id" gorm:"primary_key"`
 	Name      string `json:"name"`
-	Gender    string `json:"gender"`
+	Gender    bool   `json:"gender"`
 	BirthDate string `json:"birthdate"`
 	Address   string `json:"address"`
 

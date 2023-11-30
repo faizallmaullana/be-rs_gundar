@@ -39,6 +39,7 @@ func main() {
 
 	// ADMIN
 	// Administrators
+	// r.GET("/admin/username/:id", admin.FindAdminUsername)
 	r.GET("/admins", admin.FindAdmins)
 	r.GET("/admin/:id", admin.FindAdmin)
 	r.POST("/admin/", admin.CreateAdmin)
