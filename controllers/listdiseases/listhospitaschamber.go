@@ -25,6 +25,7 @@ type UpdateChamberInput struct {
 	ID          string `json:"id" gorm:"primary_key"`
 	ChamberName string `json:"chamber_name"`
 	Capacity    int    `json:"capacity"`
+	Slot        string `json:"slot"`
 	// for see the filled capacity, substract hospitalization chamber that status of isOut 1 on the patient
 	// capacity - isOut
 
@@ -79,6 +80,7 @@ func CreateChamber(c *gin.Context) {
 		ID:          input.ID,
 		ChamberName: input.ChamberName,
 		Capacity:    input.Capacity,
+		Slot:        input.Capacity,
 		CreatedAt:   input.CreatedAt,
 		IsDeleted:   input.IsDeleted,
 	}
@@ -104,9 +106,25 @@ func UpdateChamber(c *gin.Context) {
 		return
 	}
 
-	models.DB.Model(&dt).Updates(input)
+	slot := dt.Slot
+	var slot_status int
 
-	models.DB.Model(&dt).Updates(map[string]interface{}{"is_new": false})
+	// jika kamar digunakan maka substract
+	if input.Slot == "substract" {
+		slot_status = slot - 1
+	} else if input.Slot == "adding" {
+		slot_status = slot + 1
+	}
+
+	data := models.ListOfHospitalChambers{
+		ChamberName: input.ChamberName,
+		Capacity:    input.Capacity,
+		Slot:        slot_status,
+	}
+
+	models.DB.Model(&dt).Updates(data)
+
+	// models.DB.Model(&dt).Updates(map[string]interface{}{"is_new": false})
 
 	c.JSON(http.StatusCreated, gin.H{"data": dt})
 }
